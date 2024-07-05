@@ -11,6 +11,7 @@ public class AwsCdkApp {
         App app = new App();
         new VpcStack(app, "Vpc01");
         app.synth();
+        //teste
     }
 }
 
