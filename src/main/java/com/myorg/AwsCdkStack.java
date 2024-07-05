@@ -14,11 +14,5 @@ public class AwsCdkStack extends Stack {
     public AwsCdkStack(final Construct scope, final String id, final StackProps props) {
         super(scope, id, props);
 
-        // The code that defines your stack goes here
-
-        // example resource
-        // final Queue queue = Queue.Builder.create(this, "AwsCdkQueue")
-        //         .visibilityTimeout(Duration.seconds(300))
-        //         .build();
     }
 }

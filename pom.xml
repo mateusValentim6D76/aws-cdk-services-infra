@@ -50,6 +50,17 @@
             <artifactId>ec2</artifactId>
             <version>0.15.0</version>
         </dependency>
+        <dependency>
+            <groupId>software.amazon.awscdk</groupId>
+            <artifactId>ecs</artifactId>
+            <version>0.15.0</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awscdk</groupId>
+            <artifactId>ecs-patterns</artifactId>
+            <version>0.33.0</version>
+        </dependency>
+
 
         <dependency>
             <groupId>software.constructs</groupId>

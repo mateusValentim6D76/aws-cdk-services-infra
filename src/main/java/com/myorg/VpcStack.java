@@ -6,6 +6,7 @@ import software.amazon.awscdk.services.ec2.Vpc;
 import software.constructs.Construct;
 
 public class VpcStack extends Stack {
+    private Vpc vpc;
     public VpcStack(final Construct scope, final String id) {
         this(scope, id, null);
     }
@@ -16,5 +17,9 @@ public class VpcStack extends Stack {
                 .natGateways(0)
                 .maxAzs(2)
                 .build();
+    }
+
+    public Vpc getVpc() {
+        return vpc;
     }
 }
