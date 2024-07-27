@@ -9,6 +9,7 @@ public class AwsCdkApp {
         var clusterStack = new ClusterStack(app, "mv-Cluster01", vpcStack.getVpc());
         clusterStack.addDependency(vpcStack);
         app.synth();
+        //teste commit
 
     }
 }
