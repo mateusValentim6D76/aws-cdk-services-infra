@@ -9,8 +9,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cdk.version>2.141.0</cdk.version>
-        <constructs.version>[10.0.0,11.0.0)</constructs.version>
+        <cdk.version>2.150.0</cdk.version>
+        <constructs.version>10.0.0</constructs.version> <!-- Ajustado para uma versão específica dentro do intervalo 10.x -->
         <junit.version>5.7.1</junit.version>
     </properties>
 
@@ -44,23 +44,27 @@
             <version>${cdk.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/software.amazon.awscdk/ec2 -->
+        <!-- Dependências AWS CDK Compatíveis com a versão 2.x -->
         <dependency>
             <groupId>software.amazon.awscdk</groupId>
             <artifactId>ec2</artifactId>
-            <version>0.15.0</version>
+            <version>${cdk.version}</version>
         </dependency>
         <dependency>
             <groupId>software.amazon.awscdk</groupId>
             <artifactId>ecs</artifactId>
-            <version>0.15.0</version>
+            <version>${cdk.version}</version>
         </dependency>
         <dependency>
             <groupId>software.amazon.awscdk</groupId>
             <artifactId>ecs-patterns</artifactId>
-            <version>0.33.0</version>
+            <version>${cdk.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>software.amazon.awscdk</groupId>
+            <artifactId>rds</artifactId>
+            <version>${cdk.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>software.constructs</groupId>
@@ -69,10 +73,10 @@
         </dependency>
 
         <dependency>
-          <groupId>org.junit.jupiter</groupId>
-          <artifactId>junit-jupiter</artifactId>
-          <version>${junit.version}</version>
-          <scope>test</scope>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

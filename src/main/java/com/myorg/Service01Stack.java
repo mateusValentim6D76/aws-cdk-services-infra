@@ -1,9 +1,6 @@
 package com.myorg;
 
-import software.amazon.awscdk.Duration;
-import software.amazon.awscdk.RemovalPolicy;
-import software.amazon.awscdk.Stack;
-import software.amazon.awscdk.StackProps;
+import software.amazon.awscdk.*;
 import software.amazon.awscdk.services.applicationautoscaling.EnableScalingProps;
 import software.amazon.awscdk.services.ecs.*;
 import software.amazon.awscdk.services.ecs.patterns.ApplicationLoadBalancedFargateService;
@@ -12,14 +9,25 @@ import software.amazon.awscdk.services.elasticloadbalancingv2.HealthCheck;
 import software.amazon.awscdk.services.logs.LogGroup;
 import software.constructs.Construct;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class Service01Stack extends Stack {
+
+
     public Service01Stack(final Construct scope, final String id, Cluster cluster) {
         this(scope, id, null, cluster);
     }
 
     public Service01Stack(final Construct scope, final String id, final StackProps props, Cluster cluster) {
         super(scope, id, props);
+
+        Map<String, String> environmentVariables = new HashMap<>();
+        environmentVariables.put("SPRING_DATASOURCE_URL", "jdbc:mariadb://" + Fn.importValue(RdsStack.RDS_ENDPOINT) + ":3306/aws_project?createDatabaseIfNotExist=true");
+        environmentVariables.put("SPRING_DATASOURCE_USERNAME", RdsStack.RDS_USER);
+        environmentVariables.put("SPRING_DATASOURCE_PASSWORD", Fn.importValue(RdsStack.RDS_PASSWORD));
+
         ApplicationLoadBalancedFargateService service01 = ApplicationLoadBalancedFargateService
                 .Builder
                 .create(this, "ALB01")
@@ -40,6 +48,7 @@ public class Service01Stack extends Stack {
                                         .build())
                                 .streamPrefix("Service01")
                                 .build()))
+                        .environment(environmentVariables)
                         .build())
                 .publicLoadBalancer(true)
                 .build();
