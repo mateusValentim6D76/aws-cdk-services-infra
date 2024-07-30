@@ -6,7 +6,6 @@ import software.amazon.awscdk.services.ec2.InstanceType;
 import software.amazon.awscdk.services.rds.*;
 import software.constructs.Construct;
 
-import java.util.Collection;
 import java.util.Collections;
 
 public class RdsStack extends Stack {
@@ -48,7 +47,7 @@ public class RdsStack extends Stack {
                         .build()))
                 .vpc(vpc)
                 .credentials(Credentials.fromUsername(RDS_USER, CredentialsFromUsernameOptions.builder()
-                        .password(SecretValue.plainText(databasePassword.getValueAsString()))
+                        .password(SecretValue.unsafePlainText(databasePassword.getValueAsString()))
                         .build()))
                 .instanceType(InstanceType.of(InstanceClass.BURSTABLE2, InstanceSize.MICRO))
                 .multiAz(false)
