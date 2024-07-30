@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.apache.org/xsd/maven-4.0.0.xsd"
          xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
 
@@ -9,8 +9,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cdk.version>2.150.0</cdk.version>
-        <constructs.version>10.0.0</constructs.version> <!-- Ajustado para uma versão específica dentro do intervalo 10.x -->
+        <cdk.version>2.85.0</cdk.version> <!-- Utilize a última versão estável do CDK v2 -->
         <junit.version>5.7.1</junit.version>
     </properties>
 
@@ -38,40 +37,39 @@
 
     <dependencies>
         <!-- AWS Cloud Development Kit -->
+<!--        <dependency>-->
+<!--            <groupId>software.amazon.awscdk</groupId>-->
+<!--            <artifactId>core</artifactId>-->
+<!--            <version>${cdk.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>software.amazon.awscdk</groupId>
             <artifactId>aws-cdk-lib</artifactId>
             <version>${cdk.version}</version>
         </dependency>
-
-        <!-- Dependências AWS CDK Compatíveis com a versão 2.x -->
-        <dependency>
-            <groupId>software.amazon.awscdk</groupId>
-            <artifactId>ec2</artifactId>
-            <version>${cdk.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>software.amazon.awscdk</groupId>
-            <artifactId>ecs</artifactId>
-            <version>${cdk.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>software.amazon.awscdk</groupId>
-            <artifactId>ecs-patterns</artifactId>
-            <version>${cdk.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>software.amazon.awscdk</groupId>
-            <artifactId>rds</artifactId>
-            <version>${cdk.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>software.constructs</groupId>
             <artifactId>constructs</artifactId>
-            <version>${constructs.version}</version>
+            <version>10.0.0</version>
         </dependency>
 
+        <!-- Dependências AWS CDK Compatíveis com a versão 1.x -->
+
+<!--        <dependency>-->
+<!--            <groupId>software.amazon.awscdk</groupId>-->
+<!--            <artifactId>ecs</artifactId>-->
+<!--            <version>0.</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>software.amazon.awscdk</groupId>-->
+<!--            <artifactId>ecs-patterns</artifactId>-->
+<!--            <version>${cdk.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>software.amazon.awscdk</groupId>-->
+<!--            <artifactId>rds</artifactId>-->
+<!--            <version>${cdk.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
