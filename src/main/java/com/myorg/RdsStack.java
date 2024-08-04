@@ -41,7 +41,7 @@ public class RdsStack extends Stack {
          Definindo nome indentificador da instancia, username, password, tipo da instancia, security group, subnet.
          */
         DatabaseInstance databaseInstance = DatabaseInstance.Builder.create(this, "Rds01")
-                .instanceIdentifier("aws_mv_project01_db")
+                .instanceIdentifier("aws_mv_product01_db")
                 .engine(DatabaseInstanceEngine.mysql(MySqlInstanceEngineProps.builder()
                         .version(MysqlEngineVersion.VER_5_7)
                         .build()))
