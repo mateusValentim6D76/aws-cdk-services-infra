@@ -25,7 +25,7 @@ public class Service01Stack extends Stack {
         super(scope, id, props);
 
         Map<String, String> environmentVariables = new HashMap<>();
-        environmentVariables.put("SPRING_DATASOURCE_URL", "jdbc:mariadb://" + Fn.importValue(RdsStack.RDS_ENDPOINT) + ":3306/aws_mv_product?createDatabaseIfNotExist=true");
+        environmentVariables.put("SPRING_DATASOURCE_URL", "jdbc:mariadb://" + Fn.importValue(RdsStack.RDS_ENDPOINT) + ":3306/aws-mv-product?createDatabaseIfNotExist=true");
         environmentVariables.put("SPRING_DATASOURCE_USERNAME", RdsStack.RDS_USER);
         environmentVariables.put("SPRING_DATASOURCE_PASSWORD", Fn.importValue(RdsStack.RDS_PASSWORD));
         environmentVariables.put("AWS_REGION", "us-east-1");
@@ -41,15 +41,15 @@ public class Service01Stack extends Stack {
                 .memoryLimitMiB(1024)
                 .cpu(512)
                 .taskImageOptions(ApplicationLoadBalancedTaskImageOptions.builder()
-                        .containerName("mv_aws_container01")
+                        .containerName("aws-mv-product-service")
                         .image(ContainerImage.fromRegistry("mateusvalentim/aws_mv_project1:1.2.0"))
                         .containerPort(8080)
                         .logDriver(LogDriver.awsLogs(AwsLogDriverProps.builder()
-                                .logGroup(LogGroup.Builder.create(this, "MvServiceLogGroup01")
-                                        .logGroupName("Service01")
+                                .logGroup(LogGroup.Builder.create(this, "aws-mv-product-service")
+                                        .logGroupName("aws-mv-product-service")
                                         .removalPolicy(RemovalPolicy.DESTROY)
                                         .build())
-                                .streamPrefix("Service01")
+                                .streamPrefix("product-service")
                                 .build()))
                         .environment(environmentVariables)
                         .build())
@@ -67,7 +67,7 @@ public class Service01Stack extends Stack {
                 .maxCapacity(4)
                 .build());
 
-        scalableTaskCount.scaleOnCpuUtilization("Service01AutoScaling", CpuUtilizationScalingProps.builder()
+        scalableTaskCount.scaleOnCpuUtilization("product-service-auto-scaling", CpuUtilizationScalingProps.builder()
                 .targetUtilizationPercent(70)
                 .scaleInCooldown(Duration.seconds(60))
                 .scaleOutCooldown(Duration.seconds(60))
