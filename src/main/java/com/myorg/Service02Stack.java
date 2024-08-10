@@ -11,6 +11,7 @@ import software.amazon.awscdk.services.logs.LogGroup;
 import software.amazon.awscdk.services.sns.subscriptions.SqsSubscription;
 import software.amazon.awscdk.services.sqs.DeadLetterQueue;
 import software.amazon.awscdk.services.sqs.Queue;
+import software.amazon.awscdk.services.sqs.QueueEncryption;
 import software.constructs.Construct;
 
 import java.util.HashMap;
@@ -29,6 +30,8 @@ public class Service02Stack extends Stack {
 
         Queue productEventsDlq = Queue.Builder.create(this, "ProductEventsDlq")
                 .queueName("product-events-dlq")
+                .enforceSsl(false)
+                .encryption(QueueEncryption.UNENCRYPTED)
                 .build();
 
         DeadLetterQueue deadLetterQueue = DeadLetterQueue
@@ -39,6 +42,8 @@ public class Service02Stack extends Stack {
 
         Queue productEventsQueue = Queue.Builder.create(this, "ProductEvents")
                 .queueName("product-events")
+                .enforceSsl(false)
+                .encryption(QueueEncryption.UNENCRYPTED)
                 .deadLetterQueue(deadLetterQueue)
                 .build();
 
