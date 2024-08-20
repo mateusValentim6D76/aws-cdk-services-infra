@@ -22,9 +22,12 @@ public class AwsCdkApp {
         service01Stack.addDependency(rdsStack);
         service01Stack.addDependency(snsStack);
 
+        var dynamoDbStack = new DynamoDbStack(app, "mv-dynamo-db");
+
         var service02Stack = new Service02Stack(app, "mv-service02", clusterStack.getCluster(), snsStack.getProductEventsTopic());
         service02Stack.addDependency(clusterStack);
         service02Stack.addDependency(snsStack);
+        service02Stack.addDependency(dynamoDbStack);
 
         app.synth();
     }
