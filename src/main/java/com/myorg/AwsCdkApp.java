@@ -24,7 +24,7 @@ public class AwsCdkApp {
 
         var dynamoDbStack = new DynamoDbStack(app, "mv-dynamo-db");
 
-        var service02Stack = new Service02Stack(app, "mv-service02", clusterStack.getCluster(), snsStack.getProductEventsTopic());
+        var service02Stack = new Service02Stack(app, "mv-service02", clusterStack.getCluster(), snsStack.getProductEventsTopic(), dynamoDbStack.getProductEventsDynamoDB());
         service02Stack.addDependency(clusterStack);
         service02Stack.addDependency(snsStack);
         service02Stack.addDependency(dynamoDbStack);

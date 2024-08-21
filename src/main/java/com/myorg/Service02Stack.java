@@ -2,6 +2,7 @@ package com.myorg;
 
 import software.amazon.awscdk.*;
 import software.amazon.awscdk.services.applicationautoscaling.EnableScalingProps;
+import software.amazon.awscdk.services.dynamodb.Table;
 import software.amazon.awscdk.services.ecs.*;
 import software.amazon.awscdk.services.ecs.patterns.ApplicationLoadBalancedFargateService;
 import software.amazon.awscdk.services.ecs.patterns.ApplicationLoadBalancedTaskImageOptions;
@@ -21,11 +22,11 @@ import java.util.Map;
 public class Service02Stack extends Stack {
 
 
-    public Service02Stack(final Construct scope, final String id, Cluster cluster, SnsTopic productEventsTopic) {
-        this(scope, id, null, cluster, productEventsTopic);
+    public Service02Stack(final Construct scope, final String id, Cluster cluster, SnsTopic productEventsTopic, Table productEventsDynamoDb) {
+        this(scope, id, null, cluster, productEventsTopic, productEventsDynamoDb);
     }
 
-    public Service02Stack(final Construct scope, final String id, final StackProps props, Cluster cluster, SnsTopic productEventsTopic) {
+    public Service02Stack(final Construct scope, final String id, final StackProps props, Cluster cluster, SnsTopic productEventsTopic, Table productEventsDynamoDb) {
         super(scope, id, props);
 
         Queue productEventsDlq = Queue.Builder.create(this, "ProductEventsDlq")
@@ -98,5 +99,6 @@ public class Service02Stack extends Stack {
                 .build());
 
         productEventsQueue.grantConsumeMessages(productServiceConsumer.getTaskDefinition().getTaskRole());
+        productEventsDynamoDb.grantReadWriteData(productServiceConsumer.getTaskDefinition().getTaskRole());
     }
 }
