@@ -15,7 +15,7 @@ public class AwsCdkApp {
         var rdsStack = new RdsStack(app, "mv-rds01", vpcStack.getVpc());
         rdsStack.addDependency(vpcStack);
 
-        var snsStack = new SnsCdkStack(app, "mv-sns01");
+        var snsStack = new SnsStack(app, "mv-sns01");
 
         var service01Stack = new Service01Stack(app, "mv-service01", clusterStack.getCluster(), snsStack.getProductEventsTopic());
         service01Stack.addDependency(clusterStack);

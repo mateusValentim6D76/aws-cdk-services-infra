@@ -8,16 +8,16 @@ import software.amazon.awscdk.services.sns.Topic;
 import software.amazon.awscdk.services.sns.subscriptions.EmailSubscription;
 import software.constructs.Construct;
 
-public class SnsCdkStack extends Stack {
+public class SnsStack extends Stack {
 
     private final SnsTopic productEventsTopic;
 
-    public SnsCdkStack(final Construct scope, final String id) {
+    public SnsStack(final Construct scope, final String id) {
 
         this(scope, id, null);
     }
 
-    public SnsCdkStack(final Construct scope, final String id, final StackProps props) {
+    public SnsStack(final Construct scope, final String id, final StackProps props) {
         super(scope, id, props);
         productEventsTopic = SnsTopic.Builder.create(Topic.Builder.create(this, "Sns01")
                         .topicName("mv-product-events")
