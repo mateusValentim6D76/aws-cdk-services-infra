@@ -28,7 +28,7 @@ public class RdsStack extends Stack {
          */
         CfnParameter databasePassword = CfnParameter.Builder.create(this, "databasePassword")
                 .type("String")
-                .defaultValue("tiger123")
+                .description("tiger123")
                 .build();
 
         /*
@@ -41,9 +41,9 @@ public class RdsStack extends Stack {
         /*
          Obtendo sub-redes privadas da VPC
          */
-        List<ISubnet> publicSubnets = vpc.getPublicSubnets().stream()
-                .map(subnet -> Subnet.fromSubnetId(this, subnet.getSubnetId(), subnet.getSubnetId()))
-                .collect(Collectors.toList());
+//        List<ISubnet> publicSubnets = vpc.getPublicSubnets().stream()
+//                .map(subnet -> Subnet.fromSubnetId(this, subnet.getSubnetId(), subnet.getSubnetId()))
+//                .collect(Collectors.toList());
 
         /*
          Definindo nome indentificador da instancia, username, password, tipo da instancia, security group, subnet.
@@ -63,8 +63,9 @@ public class RdsStack extends Stack {
                 .allocatedStorage(10)
                 .securityGroups(Collections.singletonList(iSecurityGroup))
                 .vpcSubnets(SubnetSelection.builder()
-                        .subnets(publicSubnets)
+                        .subnets(vpc.getPublicSubnets())
                         .build())
+                .publiclyAccessible(true)
                 .build();
 
         /*

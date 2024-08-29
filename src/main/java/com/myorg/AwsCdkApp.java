@@ -17,10 +17,18 @@ public class AwsCdkApp {
 
         var snsStack = new SnsStack(app, "mv-sns01");
 
-        var service01Stack = new Service01Stack(app, "mv-service01", clusterStack.getCluster(), snsStack.getProductEventsTopic());
+        InvoiceAppStack invoiceAppStack = new InvoiceAppStack(app, "InvoiceApp");
+
+        var service01Stack = new Service01Stack(app, "mv-service01",
+                clusterStack.getCluster(),
+                snsStack.getProductEventsTopic(),
+                invoiceAppStack.getBucket(),
+                invoiceAppStack.getS3InvoiceQueue());
         service01Stack.addDependency(clusterStack);
         service01Stack.addDependency(rdsStack);
         service01Stack.addDependency(snsStack);
+        service01Stack.addDependency(invoiceAppStack);
+
 
         var dynamoDbStack = new DynamoDbStack(app, "mv-dynamo-db");
 

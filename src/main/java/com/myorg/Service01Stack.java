@@ -8,6 +8,8 @@ import software.amazon.awscdk.services.ecs.patterns.ApplicationLoadBalancedTaskI
 import software.amazon.awscdk.services.elasticloadbalancingv2.HealthCheck;
 import software.amazon.awscdk.services.events.targets.SnsTopic;
 import software.amazon.awscdk.services.logs.LogGroup;
+import software.amazon.awscdk.services.s3.Bucket;
+import software.amazon.awscdk.services.sqs.Queue;
 import software.constructs.Construct;
 
 import java.util.HashMap;
@@ -17,11 +19,11 @@ import java.util.Map;
 public class Service01Stack extends Stack {
 
 
-    public Service01Stack(final Construct scope, final String id, Cluster cluster, SnsTopic productEventsTopic) {
-        this(scope, id, null, cluster, productEventsTopic);
+    public Service01Stack(final Construct scope, final String id, Cluster cluster, SnsTopic productEventsTopic, Bucket invoiceBucket, Queue invoiceQueue) {
+        this(scope, id, null, cluster, productEventsTopic, invoiceBucket, invoiceQueue);
     }
 
-    public Service01Stack(final Construct scope, final String id, final StackProps props, Cluster cluster, SnsTopic productEventsTopic) {
+    public Service01Stack(final Construct scope, final String id, final StackProps props, Cluster cluster, SnsTopic productEventsTopic, Bucket invoiceBucket, Queue invoiceQueue) {
         super(scope, id, props);
 
         Map<String, String> environmentVariables = new HashMap<>();
@@ -42,7 +44,7 @@ public class Service01Stack extends Stack {
                 .cpu(512)
                 .taskImageOptions(ApplicationLoadBalancedTaskImageOptions.builder()
                         .containerName("aws-mv-product-service")
-                        .image(ContainerImage.fromRegistry("mateusvalentim/aws_mv_project1:1.2.0"))
+                        .image(ContainerImage.fromRegistry("mateusvalentim/aws_mv_project1:1.5.0"))
                         .containerPort(8080)
                         .logDriver(LogDriver.awsLogs(AwsLogDriverProps.builder()
                                 .logGroup(LogGroup.Builder.create(this, "aws-mv-product-service")
@@ -57,7 +59,7 @@ public class Service01Stack extends Stack {
                 .build();
 
         service01.getTargetGroup().configureHealthCheck(new HealthCheck.Builder()
-                .path("/actuator/healt")
+                .path("/actuator/health")
                 .port("8080")
                 .healthyHttpCodes("200")
                 .build());
@@ -74,5 +76,8 @@ public class Service01Stack extends Stack {
                 .build());
 
         productEventsTopic.getTopic().grantPublish(service01.getTaskDefinition().getTaskRole());
+
+        invoiceQueue.grantConsumeMessages(service01.getTaskDefinition().getTaskRole());
+        invoiceBucket.grantReadWrite(service01.getTaskDefinition().getTaskRole());
     }
 }

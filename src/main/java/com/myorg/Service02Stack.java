@@ -53,21 +53,20 @@ public class Service02Stack extends Stack {
 
         Map<String, String> environmentVariables = new HashMap<>();
         environmentVariables.put("AWS_REGION", "us-east-1");
-        environmentVariables.put("AWS_SQS_QUEUE_PRODUCT_EVENT_NAME", productEventsQueue.getQueueName());
-
+        environmentVariables.put("AWS_SQS_QUEUE_PRODUCT_EVENTS_NAME", productEventsQueue.getQueueName());
 
         ApplicationLoadBalancedFargateService productServiceConsumer = ApplicationLoadBalancedFargateService
                 .Builder
                 .create(this, "ALB02")
                 .cluster(cluster)
-                .serviceName("mv-service-01")
+                .serviceName("mv-service-02")
                 .listenerPort(8081)
                 .desiredCount(2)
                 .memoryLimitMiB(1024)
                 .cpu(512)
                 .taskImageOptions(ApplicationLoadBalancedTaskImageOptions.builder()
                         .containerName("aws-mv-product-consumer")
-                        .image(ContainerImage.fromRegistry("mateusvalentim/aws-mv-product-consumer:1.0.0"))
+                        .image(ContainerImage.fromRegistry("mateusvalentim/aws-mv-product-consumer:1.3.0"))
                         .containerPort(8081)
                         .logDriver(LogDriver.awsLogs(AwsLogDriverProps.builder()
                                 .logGroup(LogGroup.Builder.create(this, "aws-mv-consumer-log-group")
@@ -82,7 +81,7 @@ public class Service02Stack extends Stack {
                 .build();
 
         productServiceConsumer.getTargetGroup().configureHealthCheck(new HealthCheck.Builder()
-                .path("/actuator/healt")
+                .path("/actuator/health")
                 .port("8081")
                 .healthyHttpCodes("200")
                 .build());
