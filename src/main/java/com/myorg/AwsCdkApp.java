@@ -5,7 +5,8 @@ import software.amazon.awscdk.App;
 
 public class AwsCdkApp {
     public static void main(final String[] args) {
-        App app = new App();
+
+        var app = new App();
 
         var vpcStack = new VpcStack(app, "mv-vpc01");
 
@@ -17,7 +18,7 @@ public class AwsCdkApp {
 
         var snsStack = new SnsStack(app, "mv-sns01");
 
-        InvoiceAppStack invoiceAppStack = new InvoiceAppStack(app, "InvoiceApp");
+        var invoiceAppStack = new InvoiceAppStack(app, "mv-invoice-app01");
 
         var service01Stack = new Service01Stack(app, "mv-service01",
                 clusterStack.getCluster(),

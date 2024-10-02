@@ -33,6 +33,9 @@ public class Service01Stack extends Stack {
         environmentVariables.put("AWS_REGION", "us-east-1");
         environmentVariables.put("AWS_SNS_TOPIC_PRODUCT_EVENTS_ARN", productEventsTopic.getTopic().getTopicArn());
 
+        environmentVariables.put("AWS_S3_BUCKET_INVOICE_NAME", invoiceBucket.getBucketName());
+        environmentVariables.put("AWS_SQS_QUEUE_INVOICE_EVENTS_NAME", invoiceQueue.getQueueName());
+
         ApplicationLoadBalancedFargateService service01 = ApplicationLoadBalancedFargateService
                 .Builder
                 .create(this, "ALB01")
@@ -44,7 +47,7 @@ public class Service01Stack extends Stack {
                 .cpu(512)
                 .taskImageOptions(ApplicationLoadBalancedTaskImageOptions.builder()
                         .containerName("aws-mv-product-service")
-                        .image(ContainerImage.fromRegistry("mateusvalentim/aws_mv_project1:1.5.0"))
+                        .image(ContainerImage.fromRegistry("mateusvalentim/aws_mv_project1:1.6.0"))
                         .containerPort(8080)
                         .logDriver(LogDriver.awsLogs(AwsLogDriverProps.builder()
                                 .logGroup(LogGroup.Builder.create(this, "aws-mv-product-service")

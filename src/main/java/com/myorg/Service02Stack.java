@@ -66,7 +66,7 @@ public class Service02Stack extends Stack {
                 .cpu(512)
                 .taskImageOptions(ApplicationLoadBalancedTaskImageOptions.builder()
                         .containerName("aws-mv-product-consumer")
-                        .image(ContainerImage.fromRegistry("mateusvalentim/aws-mv-product-consumer:1.3.0"))
+                        .image(ContainerImage.fromRegistry("mateusvalentim/aws-mv-product-consumer:1.2.0"))
                         .containerPort(8081)
                         .logDriver(LogDriver.awsLogs(AwsLogDriverProps.builder()
                                 .logGroup(LogGroup.Builder.create(this, "aws-mv-consumer-log-group")
