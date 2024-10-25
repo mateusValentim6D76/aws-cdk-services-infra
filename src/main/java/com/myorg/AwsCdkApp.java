@@ -41,3 +41,5 @@ public class AwsCdkApp {
         app.synth();
     }
 }
+
+//cdk deploy --parameters mv-rds01:databasePassword=admin mv-rds01
